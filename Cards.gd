@@ -1,5 +1,7 @@
 extends RigidBody2D
 
+# onready var globalVariables = get_node("/root/GlobalInit")
+
 var array = [
 	"res://assets/tarot/major_arcana/ar00.jpg", 
 	"res://assets/tarot/major_arcana/ar01.jpg", 
@@ -89,8 +91,13 @@ var array = [
 func _ready():
 	randomize()
 	var my_card = (randi() % 77)
+	
+	if Globals.cardsUsed.has(my_card):
+		while Globals.cardsUsed.has(my_card):
+			my_card = (randi() % 77)
+	
 	$spr_card.texture = load(array[my_card])
-
+	Globals.cardsUsed.append(my_card)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
